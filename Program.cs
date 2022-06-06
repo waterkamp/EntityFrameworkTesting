@@ -61,7 +61,7 @@ namespace EntityFrameworkTesting
             using var db = new BloggingContext();
             for (int i = 0; i < amount; i++)
             {
-                var url = "http://www.blogs.ch/blog";
+                var url = "http://www.blogs.ch/blog/" + Guid.NewGuid();
                 db.Add(new Blog { Url = url});
             }
 
@@ -88,10 +88,10 @@ namespace EntityFrameworkTesting
             {
                 for (int i = 0; i < amount; i++)
                 {
-                    var counter = i + 1;
+                    var guid = Guid.NewGuid();
                     b.Posts.Add(new Post{
-                       Title = $"Post title {counter}",
-                       Content = $"This is the content of post {counter}"
+                       Title = $"Post title {guid}",
+                       Content = $"This is the content of post {guid}"
                     });
                 }
             });
