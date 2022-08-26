@@ -8,6 +8,7 @@
         CreateBlogPosts = 3,
         ShowAllBlogs = 4,
         ShowBlogById = 5,
-        ShowPaginationExample = 6
+        ShowPaginationExample = 6,
+        FulltextSearchInBlogPostContent = 7
     }
 }

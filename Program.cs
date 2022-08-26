@@ -225,6 +225,36 @@ namespace EntityFrameworkTesting
             executionLog.AppendLine(blog.ToDisplayLine());
         }
 
+        private static void FulltextSearchInBlogPostContent()
+        {
+           using var db = new BloggingContext();
+           Console.WriteLine("Please enter a search-term (>2 characters):");
+           var enteredString = Console.ReadLine();
+            while (string.IsNullOrEmpty(enteredString) && enteredString.Length < 3)
+            {
+                Console.WriteLine("Search-term nicht gültig");
+                enteredString = Console.ReadLine();
+            }
+
+            var blogs = db.Blogs.Include(b => b.Posts).Where(b => b.Posts.Any(p => p.Title.ToLower().IndexOf(enteredString.ToLower()) >= 0)).ToList();
+
+            if (blogs.Count == 0) {
+                executionLog.AppendLine("No Blogs found with the search-term within the Blog-Posts.");
+            } else
+            {
+                executionLog.AppendLine("Search-Result:");
+                executionLog.AppendLine("---------------");
+                blogs.ForEach(b =>
+                {
+                    executionLog.AppendLine($"Id: {b.BlogId}, Url: {b.Url}");
+                    foreach (var post in b.Posts)
+                    {
+                        executionLog.AppendLine($"   Post: Id: {post.PostId}, Content: {post.Content}");
+                    }
+                });
+            }
+        }
+
 
         private static Commands? ReadCommand()
         {
